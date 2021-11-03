@@ -30,10 +30,10 @@ public class HTTPClientGetMethod {
         //execute command
         CloseableHttpResponse response = client.execute(request);
 
-        //asserting the response
+      /*  //asserting the response
         int code=response.getStatusLine().getStatusCode();
         System.out.println("Response code is"+code);
-        Assert.assertEquals(code,200);
+        Assert.assertEquals(code,200);*/
 
         String responseString = EntityUtils.toString(response.getEntity(),"UTF-8");
         System.out.println(responseString);
