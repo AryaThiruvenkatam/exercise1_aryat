@@ -12,9 +12,13 @@ public class Sample1Steps {
     @Then("script execution in progress")
     public void scriptExecutionInProgress() {System.out.println("script execution in progress");}
 
+
+
     @And("Execution completed")
     public void executionCompleted() {
             System.out.println("Execution completed");
         }
-    }
+
+
+}
 
