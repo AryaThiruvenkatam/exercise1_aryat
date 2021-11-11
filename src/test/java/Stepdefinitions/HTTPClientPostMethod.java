@@ -1,35 +1,56 @@
 package Stepdefinitions;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import io.cucumber.java.en.Then;
-import io.restassured.path.json.JsonPath;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.Assert;
-import org.testng.reporters.XMLConstants;
-import java.io.Closeable;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import static util.ConfigReader.geturl;
+
 
 public class HTTPClientPostMethod {
+
+    String csvFile= "D:\\Users\\KarT\\Documents\\Arya\\Exercise1_aryat\\src\\main\\resources\\TestData\\SampleCSV.csv";
+
     @Then("Create Post method")
-    public void postMethod() throws Exception{
+    public void postMethod() throws InterruptedException, IOException, CsvValidationException {
+        String name1="";
+        String salary1="";
+        String age1="";
 
 
-        String bodyEmp ="{\"name\":\"test\",\"salary\":\"123\",\"age\":\"23\", \"name\":\"arya\",\"salary\":\"234\",\"age\":\"89\",\"name\":\"a2\",\"salary\":\"345\",\"age\":\"12\"" +
-                "\"name\":\"a3\",\"salary\":\"5788\",\"age\":\"23\"\"name\":\"a4\",\"salary\":\"346547\",\"age\":\"44\"\"name\":\"a5\",\"salary\":\"356\",\"age\":\"35\"" +
-                "\"name\":\"a6\",\"salary\":\"2345\",\"age\":\"34\"" +
-                "\"name\":\"a7\",\"salary\":\"1425\",\"age\":\"54\"\"name\":\"a8\",\"salary\":\"476990\",\"age\":\"34\"" +
-                "\"name\":\"a9\",\"salary\":\"45666\",\"age\":\"22\",\"name\":\"a10\",\"salary\":\"35667\",\"age\":\"44\"}";
+            CSVReader reader = new CSVReader(new FileReader(csvFile));
+            String[] cell;
+            while((cell=reader.readNext())!=null)
+            {
+                for(int i=0;i<1;i++){
+                    name1= cell[i];
+                    salary1 = cell[i+1];
+                    age1 = cell[i+2];
+                }
+
+            }
+            String bodyEmp="{\"name\":\""+name1+"\",\"salary\":\""+salary1+"\",\"age\":\""+age1+"\"}";
 
         //create a client
         CloseableHttpClient client = HttpClients.createDefault();
 
+        System.out.println(geturl());
         //create a request
-        HttpPost request1 = new HttpPost("http://dummy.restapiexample.com/api/v1/create");
+        HttpPost request1 = new HttpPost(geturl());
+
 
         //adding header and employee detail
         request1.addHeader("Content-Type","application/json");

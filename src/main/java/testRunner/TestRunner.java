@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "D://Users//KarT//Documents//Arya//Exercise1_aryat//Feature//Sample1.feature",
+        features = "D:\\Users\\KarT\\Documents\\Arya\\Exercise1_aryat\\src\\main\\resources\\Sample1.feature",
         glue={"Stepdefinitions"}
 )
 public class TestRunner

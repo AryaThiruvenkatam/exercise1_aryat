@@ -4,7 +4,8 @@ Feature: Sample exercise
 
     Then script execution in progress
 
-    Then Create Get method
+
+    #Then Create Get method
     Then Create Post method
 
 
