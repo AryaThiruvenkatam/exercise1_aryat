@@ -3,68 +3,68 @@ package Stepdefinitions;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import io.cucumber.java.en.Then;
+import io.restassured.internal.util.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static util.ConfigReader.geturl;
 
 
 public class HTTPClientPostMethod {
 
-    String csvFile= "D:\\Users\\KarT\\Documents\\Arya\\Exercise1_aryat\\src\\main\\resources\\TestData\\SampleCSV.csv";
-
-    @Then("Create Post method")
-    public void postMethod() throws InterruptedException, IOException, CsvValidationException {
-        String name1="";
-        String salary1="";
-        String age1="";
+    String csvFile = "D:\\Users\\KarT\\Documents\\Arya\\Exercise1_aryat\\src\\main\\resources\\TestData\\SampleCSV.csv";
 
 
-            CSVReader reader = new CSVReader(new FileReader(csvFile));
-            String[] cell;
-            while((cell=reader.readNext())!=null)
-            {
-                for(int i=0;i<1;i++){
-                    name1= cell[i];
-                    salary1 = cell[i+1];
-                    age1 = cell[i+2];
-                }
+    HttpPost request1;
+    //create a client
+    CloseableHttpClient client = HttpClients.createDefault();
 
-            }
-            String bodyEmp="{\"name\":\""+name1+"\",\"salary\":\""+salary1+"\",\"age\":\""+age1+"\"}";
+    @Then("Hit the url2 with the post request")
+    public void Hit_URL2() throws InterruptedException, IOException, CsvValidationException {
 
-        //create a client
-        CloseableHttpClient client = HttpClients.createDefault();
 
-        System.out.println(geturl());
         //create a request
-        HttpPost request1 = new HttpPost(geturl());
+        request1 = new HttpPost(geturl());
+    }
+
+
+    @Then("Pass the employee record to be added using post request")
+    public void Employee_Add() throws InterruptedException, IOException, CsvValidationException {
+        String file = "D:\\Users\\KarT\\Documents\\Arya\\Exercise1_aryat\\src\\main\\resources\\TestData\\sample.json";
+        String json = new String(Files.readAllBytes(Paths.get(file)));
+        System.out.println(json);
 
 
         //adding header and employee detail
-        request1.addHeader("Content-Type","application/json");
-        request1.setEntity(new StringEntity(bodyEmp));
+        request1.addHeader("Content-Type", "application/json");
+        request1.setEntity(new StringEntity(json));
 
         //execute command and storing response
         CloseableHttpResponse response1 = client.execute(request1);
 
-           /* //asserting the response
+      /*  //asserting the response
             int code=response1.getStatusLine().getStatusCode();
             System.out.println("Response code for post is"+code);
             Assert.assertEquals(code,200);*/
 
         String responseString = EntityUtils.toString(response1.getEntity());
         System.out.println(responseString);
+
     }
+
+
 }

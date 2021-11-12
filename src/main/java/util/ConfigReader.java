@@ -18,7 +18,13 @@ public class ConfigReader {
 
     public static String geturl() throws IOException {
 
-        return getPropertyObject().getProperty("url");
+        return getPropertyObject().getProperty("url1");
+
+    }
+
+    public static String geturl1() throws IOException {
+
+        return getPropertyObject().getProperty("url2");
 
     }
 }
